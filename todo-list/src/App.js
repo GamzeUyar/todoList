@@ -1,29 +1,34 @@
-import React, {useState} from 'react'
-import Header from './components/Header'
-import TodoList from './components/TodoList'
+import React, { useEffect, useState } from "react";
+import Header from "./components/Header";
+import TodoList from "./components/TodoList";
 
-const todoList=[
+const todoList = [
   {
-    id:1,
-    text:'React ile todolist uygulaması',
-    completed:false
+    id: 1,
+    text: "React ile todolist uygulaması",
+    completed: false,
   },
   {
-    id: new Date().getTime() ,
-    text:"uuid kullanımı",
-    completed:false
+    id: new Date().getTime(),
+    text: "uuid kullanımı",
+    completed: false,
   },
- 
 ];
 const App = () => {
-  const [todos, setTodos] = useState([todoList])
+  const [todos, setTodos] = useState(
+    JSON.parse(localStorage.getItem("todos"))||todoList
+  );
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos),[todos]);
+  });
+
   return (
     <div>
       <Header setTodos={setTodos} todos={todos} />
-      <TodoList todos={todos} setTodos={setTodos}  />
+      <TodoList todos={todos} setTodos={setTodos} />
     </div>
-  )
-}
+  );
+};
 
-export default App
-
+export default App;
